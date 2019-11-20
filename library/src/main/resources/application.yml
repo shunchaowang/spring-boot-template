@@ -1,0 +1,39 @@
+# dev for development, prod for production, default to run with H2
+spring:
+  profiles:
+    active: default
+
+logging:
+  level:
+    ROOT: ERROR
+    me.thunder.library: DEBUG
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring-boot-template?useSSL=false
+    username: root
+    password: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    tomcat: # keep connection alive
+      test-on-borrow: true
+      validation-query: SELECT 1
+  jpa:
+    database-platform:  org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  thymeleaf:
+    cache: false
+server:
+  port: 8080
+---
+spring:
+  profiles: prod
+  datasource:
+    jndi-name: <jndi-name>
+logging:
+  level:
+    ROOT: ERROR
+    me.thunder.library: ERROR
+    
